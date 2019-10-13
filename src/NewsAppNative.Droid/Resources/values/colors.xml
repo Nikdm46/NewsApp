@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <color name="primaryColor">#03A9F4</color>
+    <color name="primaryDarkColor">#0288D1</color>
+    <color name="primaryLightColor">#FFC107</color>
+
+    <color name="accentColor">#4c555a</color>
+    <color name="accentDarkColor">#242c31</color>
+    <color name="accentLightColor">#788187</color>
+
+    <color name="primaryTextColor">#000000</color>
+    <color name="secondaryTextColor">#ffffff</color>
+
+    <color name="gray">#9C9998</color>
+    <color name="lightGray">#fafafa</color>
+
+    <color name="bg_swipe_item_neutral">@android:color/transparent</color>
+    <color name="bg_item_normal_state">#fff0f0f0</color>
+    <color name="bg_item_swiping_left_state">#1a6cd1</color>
+    <color name="bg_item_swiping_right_state">#d11a2a</color>
+</resources>

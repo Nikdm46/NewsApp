@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightGray">
+    
+    <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:srl_direction="both"
+        local:MvxBind="Refreshing IsBusy; RefreshCommand RefreshNewsCommand">
+        <mvvmcross.advancedrecyclerview.MvxAdvancedNonExpandableRecyclerView
+            android:id="@+id/RecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            local:MvxTemplateSelector="@string/NewsTemplateSelector"      
+            local:MvxSwipeableTemplate="@string/NewsSwipeableTemplate"
+            local:MvxUniqueItemIdProvider="@string/UniqueItemIdProvider"
+            local:MvxBind="ItemsSource News;" />
+    </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+</RelativeLayout>

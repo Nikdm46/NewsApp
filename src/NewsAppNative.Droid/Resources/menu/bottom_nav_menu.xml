@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+      android:id="@+id/action_news"
+      android:enabled="true"
+      android:icon="@drawable/outline_list_alt_white_24"
+      android:title="Новости"
+      android:showAsAction="ifRoom"/>
+    <item
+      android:id="@+id/action_favorites"
+      android:enabled="true"
+      android:icon="@drawable/round_turned_in_not_white_24"
+      android:title="Избранное"
+      android:showAsAction="ifRoom"/>
+</menu>

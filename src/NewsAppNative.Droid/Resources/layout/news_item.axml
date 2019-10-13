@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight = "65dp">
+    <RelativeLayout
+        android:id="@+id/under_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight = "25dp"
+            android:src="@drawable/baseline_delete_white_24"/>
+        <ffimageloading.cross.MvxCachedImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft = "25dp"
+            local:MvxBind="ImagePath InFavoriteImageSource"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/container_layout"
+        android:minHeight="65dp"
+        android:orientation="vertical"
+        android:paddingTop = "10dp"
+        android:paddingRight = "10dp"
+        android:paddingLeft = "10dp"
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top|left"
+            android:textSize = "15sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:gravity="start"
+            local:MvxBind="Text Title;"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top|left"
+            android:textSize = "11sp"
+            android:gravity="start"
+            local:MvxBind="Text CreatedAt, Converter=DateTimeToString;"/>
+        <TextView
+            android:id="@+id/content_textview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top|left"
+            android:textSize = "15sp"
+            android:textColor="@android:color/black"
+            android:ellipsize="end"
+            android:lines="1"
+            android:gravity="start"
+            local:MvxBind="Text Content ;Visible IsExpanded, Converter=InvertBool;"/>
+        <TextView
+            android:id="@+id/content_textview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top|left"
+            android:textSize = "15sp"
+            android:textColor="@android:color/black"
+            android:gravity="start"
+            local:MvxBind="Text Content;Visible IsExpanded"/>
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:backgroundTint="#ffffffff"
+            android:text="Показать еще..."
+            android:textSize="12dp"
+            android:textAllCaps="false" 
+            style="?android:attr/borderlessButtonStyle"
+            local:MvxBind="Click ExpandTextCommand; Text ButtonTitle"/>
+    </LinearLayout>
+</FrameLayout>
