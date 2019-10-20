@@ -18,6 +18,7 @@ namespace NewsAppNative.Core.ViewModels.News
         private MvxAsyncCommand _loadMoreNewsCommand;
         private MvxCommand<NewsModel> _addToFavoriteCommand;
         private MvxCommand<NewsModel> _removeNewsCommand;
+        private MvxAsyncCommand _redrawCommand;
         private int _currentNewLoadedPage = 0;
         private bool _isBusy;
         private readonly MvxSubscriptionToken token;
@@ -25,7 +26,21 @@ namespace NewsAppNative.Core.ViewModels.News
         {
             get => _news;
             set => SetProperty(ref _news, value);
-        }        
+        }
+        public MvxAsyncCommand RedrawCommand
+        {
+            get
+            {
+                _redrawCommand = _redrawCommand ?? new MvxAsyncCommand(Redraw);
+                return _redrawCommand;
+            }
+        }
+
+        private Task Redraw()
+        {
+            throw new NotImplementedException();
+        }
+
         public MvxAsyncCommand RefreshNewsCommand
         {
             get

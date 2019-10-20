@@ -23,6 +23,7 @@
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
     <MtouchExtraArgs>--linkskip=NewsAppNative.Core</MtouchExtraArgs>
+    <MtouchSdkVersion>12.4</MtouchSdkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -64,16 +65,98 @@
     <MtouchExtraArgs>--linkskip=NewsAppNative.Core</MtouchExtraArgs>
     <MtouchLink>SdkOnly</MtouchLink>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <AppExtensionDebugBundleId />
+  </PropertyGroup>
   <ItemGroup>
     <BundleResource Include="Resources\launch_image.png" />
     <BundleResource Include="Resources\launch_image%402x.png" />
     <BundleResource Include="Resources\launch_image%403x.png" />
+    <Compile Include="Converters\MvxConverter.cs" />
+    <Compile Include="Helpers\ConstraintsHelper.cs" />
     <Compile Include="Linker\LinkerPleaseInclude.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="PlatformSpecific\DialogService.cs" />
     <Compile Include="PlatformSpecific\IosHttpClient.cs" />
     <Compile Include="Setup.cs" />
     <Compile Include="Styles\ColorPalette.cs" />
+    <Compile Include="Views\Cells\NewsCell.cs" />
+    <Compile Include="Views\Favorite\FavoriteController.cs" />
+    <Compile Include="Views\News\NewsController.cs" />
+    <Compile Include="Views\Source\NewsTableViewSource.cs" />
+    <ImageAsset Include="Media.xcassets\baseline_delete_white_24.imageset\baseline_delete_white_24pt_1x1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\baseline_delete_white_24.imageset\baseline_delete_white_24pt_2x1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\baseline_delete_white_24.imageset\baseline_delete_white_24pt_3x1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\baseline_favorite_border_white_24.imageset\baseline_favorite_border_white_24pt_1x1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\baseline_favorite_border_white_24.imageset\baseline_favorite_border_white_24pt_2x1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\baseline_favorite_border_white_24.imageset\baseline_favorite_border_white_24pt_3x1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\baseline_favorite_white_24.imageset\baseline_favorite_white_24pt_1x1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\baseline_favorite_white_24.imageset\baseline_favorite_white_24pt_2x1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\baseline_favorite_white_24.imageset\baseline_favorite_white_24pt_3x1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\baseline_reply_white_24.imageset\baseline_reply_white_24pt_1x1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\baseline_reply_white_24.imageset\baseline_reply_white_24pt_2x1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\baseline_reply_white_24.imageset\baseline_reply_white_24pt_3x1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\outline_list_alt_white_24.imageset\outline_list_alt_white_24pt_1x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\outline_list_alt_white_24.imageset\outline_list_alt_white_24pt_2x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\outline_list_alt_white_24.imageset\outline_list_alt_white_24pt_3x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\round_turned_in_not_white_24.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\outline_list_alt_white_24.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\baseline_reply_white_24.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\baseline_favorite_white_24.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\baseline_favorite_border_white_24.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\baseline_delete_white_24.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\round_turned_in_not_white_24.imageset\round_turned_in_not_white_24pt_1x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\round_turned_in_not_white_24.imageset\round_turned_in_not_white_24pt_2x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\round_turned_in_not_white_24.imageset\round_turned_in_not_white_24pt_3x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
     <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-87.png">
       <Visible>false</Visible>
     </ImageAsset>

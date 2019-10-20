@@ -22,7 +22,7 @@ namespace NewsAppNative.Core
             RealmConfigurationBase config = RealmConfiguration.DefaultConfiguration;
             config.SchemaVersion = 1;
 
-            RegisterAppStart<MainContainerViewModel>();
+            RegisterAppStart<MainViewModel>();
         }
     }
 }

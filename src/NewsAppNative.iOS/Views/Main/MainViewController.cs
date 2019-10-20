@@ -1,48 +1,66 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Cirrious.FluentLayouts.Touch;
+using System;
 using Foundation;
+using MvvmCross;
 using MvvmCross.Platforms.Ios.Presenters.Attributes;
+using MvvmCross.Platforms.Ios.Views;
+using MvvmCross.ViewModels;
+using NewsAppNative.Core.ViewModels.FavoriteNews;
 using NewsAppNative.Core.ViewModels.Main;
+using NewsAppNative.Core.ViewModels.News;
 using UIKit;
 
 namespace NewsAppNative.iOS.Views.Main
 {
-    [MvxRootPresentation(WrapInNavigationController = true)]
-    public class MainViewController : BaseViewController<MainViewModel>
+    [Register("MainViewController")]
+   // [MvxRootPresentation()]
+    public class MainViewController : MvxTabBarViewController<MainViewModel>
     {
-        private UILabel _labelWelcome, _labelMessage;
-
-        protected override void CreateView()
+        private bool _isPresentedFirstTime = true;
+        private bool _constructed;
+        public MainViewController()
         {
-            _labelWelcome = new UILabel
-            {
-                Text = "Welcome!!",
-                TextAlignment = UITextAlignment.Center
-            };
-            Add(_labelWelcome);
-
-            _labelMessage = new UILabel
-            {
-                Text = "App scaffolded with MvxScaffolding",
-                TextAlignment = UITextAlignment.Center
-            };
-            Add(_labelMessage);
+            _constructed = true;
+            ViewDidLoad();
         }
-
-        protected override void LayoutView()
+        public override void ViewDidLoad()
         {
-            View.AddConstraints(new FluentLayout[]
-           {
-                _labelWelcome.WithSameCenterX(View),
-                _labelWelcome.WithSameCenterY(View),
+            base.ViewDidLoad();
+        }
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+            NavigationController?.SetNavigationBarHidden(true, false);
+            TabBarItem.SetTitleTextAttributes(new UITextAttributes
+            {
+                TextColor = UIColor.DarkGray,
+                Font = UIFont.SystemFontOfSize(16, UIFontWeight.Regular)
+            }, UIControlState.Normal);
 
-                _labelMessage.Below(_labelWelcome, 10f),
-                _labelMessage.WithSameWidth(View)
-           });
+            //TabBar.SelectedImageTintColor = Colors.SelectedTabColor;
+            //TabBar.TintColor = Colors.SelectedTabColor;
+
+            if (ViewModel != null && _isPresentedFirstTime)
+            {
+                _isPresentedFirstTime = false;
+                ViewModel.ShowInitialViewModelsCommand.ExecuteAsync(null);
+            }
+
+            if (NavigationController?.NavigationBar != null)
+                NavigationController.NavigationBar.Hidden = true;
+
+            if (NavigationController != null)
+            {
+                NavigationController.InteractivePopGestureRecognizer.Enabled = false;
+                TabBar.Translucent = false;
+            }
+        }
+        protected override void SetTitleAndTabBarItem(UIViewController viewController, MvxTabPresentationAttribute attribute)
+        {
+            // you can override this method to set title or iconName
+            if (!string.IsNullOrEmpty(attribute.TabName))
+                attribute.TabName = attribute.TabName;
+
+            base.SetTitleAndTabBarItem(viewController, attribute);
         }
     }
 }
