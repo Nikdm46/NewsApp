@@ -1,11 +1,15 @@
 using System;
+using MvvmCross;
 using MvvmCross.Commands;
+using MvvmCross.Plugin.Messenger;
 using MvvmCross.ViewModels;
+using NewsAppNative.Core.Models.Messages;
 
 namespace NewsAppNative.Core.Models
 {
     public class NewsModel : MvxViewModel
     {
+        private readonly IMvxMessenger Messenger;
         public int Id { get; set; }
         public string Title { get; set; }
 
@@ -69,7 +73,7 @@ namespace NewsAppNative.Core.Models
             set
             {
                 _isExpanded = value;
-                if(_isExpanded)
+                if (_isExpanded)
                 {
                     ButtonTitle = "Скрыть";
                 }
@@ -77,6 +81,8 @@ namespace NewsAppNative.Core.Models
                 {
                     ButtonTitle = "Показать еще...";
                 }
+                var message = new UpdateTableMessage(this, this);
+                Messenger.Publish(message);
                 RaisePropertyChanged(() => IsExpanded);
             }
         }
@@ -94,6 +100,7 @@ namespace NewsAppNative.Core.Models
 
         public NewsModel()
         {
+            Messenger = Mvx.IoCProvider.Resolve<IMvxMessenger>();
         }
 
         public MvxCommand ExpandTextCommand => new MvxCommand(ExpandText);

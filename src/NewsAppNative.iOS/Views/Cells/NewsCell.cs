@@ -57,7 +57,7 @@ namespace NewsAppNative.iOS.Views.Cells
                 TextColor = UIColor.Black,
                 TextAlignment = UITextAlignment.Left,
                 BackgroundColor = UIColor.Clear,
-                Lines = 1,
+                Lines = 0,
             };
             _contentSmall = new UILabel()
             {
@@ -66,7 +66,7 @@ namespace NewsAppNative.iOS.Views.Cells
                 TextColor = UIColor.Black,
                 TextAlignment = UITextAlignment.Left,
                 BackgroundColor = UIColor.Clear,
-                Lines = 5
+                Lines = 1
             };
             _createdAt = new UILabel()
             {

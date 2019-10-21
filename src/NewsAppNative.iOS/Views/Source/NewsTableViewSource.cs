@@ -1,3 +1,4 @@
+using System.Linq;
 using CoreGraphics;
 using Foundation;
 using MvvmCross.Platforms.Ios.Binding.Views;
@@ -39,19 +40,35 @@ namespace NewsAppNative.iOS.Views.Source
 
             return TrailingSwipe;
         }
+        public override void WillDisplay(UITableView tableView, UITableViewCell cell, NSIndexPath indexPath)
+        {
+
+            if (indexPath.Row == ViewModel.News.Count - 1)
+            {
+                ViewModel.LoadMoreNewsCommand.ExecuteAsync();
+            }
+        }
 
         public UIContextualAction ContextualToFavoriteAction(int row)
         {
+            var news = ViewModel.News[row];
             var action = UIContextualAction.FromContextualActionStyle
                             (UIContextualActionStyle.Normal,
                                 "",
-                                (flagAction, view, success) =>
+                                (toFavorieAction, view, success) =>
                                 {
-                                    TableView.ReloadRows(new NSIndexPath[] { NSIndexPath.FromRowSection(row, 0) }, UITableViewRowAnimation.None);
+                                    var item = ViewModel.News[row];
+                                    ViewModel.AddToFavoriteCommand.Execute(item);
                                     success(true);
                                 });
-
-            action.Image = UIImage.FromBundle("baseline_favorite_border_white_24");
+            if(news.IsInFavorite)
+            {
+                action.Image = UIImage.FromBundle("baseline_favorite_border_white_24");
+            }
+            else
+            {
+                action.Image = UIImage.FromBundle("baseline_favorite_white_24");
+            }
             action.BackgroundColor = UIColor.Blue;
 
             return action;
@@ -62,13 +79,13 @@ namespace NewsAppNative.iOS.Views.Source
             var action = UIContextualAction.FromContextualActionStyle
                             (UIContextualActionStyle.Destructive,
                                 "",
-                                (flagAction, view, success) =>
+                                (deleteAction, view, success) =>
                                 {
                                     var item = ViewModel.News[row];
-                                    ViewModel.News.Remove(item);
+                                    ViewModel.RemoveNewsCommand.Execute(item);
                                     success(true);
                                 });
-
+            
             action.Image = UIImage.FromBundle("baseline_delete_white_24");
             action.BackgroundColor = UIColor.Red;           
 

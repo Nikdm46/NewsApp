@@ -1,7 +1,12 @@
+using System;
 using CoreGraphics;
+using Foundation;
+using MvvmCross;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Presenters.Attributes;
 using MvvmCross.Platforms.Ios.Views;
+using MvvmCross.Plugin.Messenger;
+using NewsAppNative.Core.Models.Messages;
 using NewsAppNative.Core.ViewModels.News;
 using NewsAppNative.iOS.Helpers;
 using NewsAppNative.iOS.Views.Source;
@@ -15,6 +20,27 @@ namespace NewsAppNative.iOS.Views.News
         private UITableView _tableView;
         private MvxUIRefreshControl _mvxRefresh;
         private NewsTableViewSource _newsTableViewSource;
+        private MvxSubscriptionToken _token;
+
+        public override void ViewDidAppear(bool animated)
+        {
+            base.ViewDidAppear(animated);
+
+            if (_token == null)
+            {
+                _token = Mvx.IoCProvider.Resolve<IMvxMessenger>().SubscribeOnMainThread<UpdateTableMessage>(UpdateTable);
+                //ViewModel.MessengerTokens.Add(_token);
+            }
+        }
+
+        private void UpdateTable(UpdateTableMessage obj)
+        {
+            var itemIndex = ViewModel.News.IndexOf(obj.News);
+            _tableView.BeginUpdates();
+            _tableView.ReloadRows(new NSIndexPath[] { NSIndexPath.FromRowSection(itemIndex, 0) }, UITableViewRowAnimation.Automatic);
+            _tableView.EndUpdates();
+        }
+
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
@@ -35,10 +61,14 @@ namespace NewsAppNative.iOS.Views.News
             _tableView.EstimatedRowHeight = 60f;
             _tableView.ReloadData();
 
+            
+
             View.AddSubview(_tableView);
 
             var set = this.CreateBindingSet<NewsController, NewsViewModel>();
             set.Bind(_newsTableViewSource).To(vm => vm.News);
+            set.Bind(_mvxRefresh).For(rf => rf.RefreshCommand).To(vm => vm.RefreshNewsCommand);
+            set.Bind(_mvxRefresh).For(rf => rf.IsRefreshing).To(vm => vm.IsBusy);
             set.Apply();
         }
 
