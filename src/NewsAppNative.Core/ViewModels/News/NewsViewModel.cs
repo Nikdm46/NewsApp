@@ -109,14 +109,16 @@ namespace NewsAppNative.Core.ViewModels.News
                 if (obj.IsInFavorite)
                 {
                     obj.IsInFavorite = false;
+                    var message = new RemoveItem(this, obj);
+                    Messenger.Publish(message);
                 }
                 else
                 {
                     obj.IsInFavorite = true;
+                    var message = new AddToFavoriteMessage(this, obj);
+                    Messenger.Publish(message);
                 }
                 RepositoryService.SaveOrUpdateNews(obj);
-                var message = new AddToFavoriteMessage(this, obj);
-                Messenger.Publish(message);
             }
             catch (Exception e)
             {

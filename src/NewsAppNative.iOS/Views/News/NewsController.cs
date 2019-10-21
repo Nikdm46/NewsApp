@@ -29,7 +29,6 @@ namespace NewsAppNative.iOS.Views.News
             if (_token == null)
             {
                 _token = Mvx.IoCProvider.Resolve<IMvxMessenger>().SubscribeOnMainThread<UpdateTableMessage>(UpdateTable);
-                //ViewModel.MessengerTokens.Add(_token);
             }
         }
 

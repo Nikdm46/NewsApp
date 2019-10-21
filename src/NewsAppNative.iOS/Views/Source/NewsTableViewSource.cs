@@ -61,7 +61,7 @@ namespace NewsAppNative.iOS.Views.Source
                                     ViewModel.AddToFavoriteCommand.Execute(item);
                                     success(true);
                                 });
-            if(news.IsInFavorite)
+            if(!news.IsInFavorite)
             {
                 action.Image = UIImage.FromBundle("baseline_favorite_border_white_24");
             }

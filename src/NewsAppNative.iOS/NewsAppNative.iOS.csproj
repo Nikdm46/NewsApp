@@ -85,6 +85,7 @@
     <Compile Include="Views\Cells\NewsCell.cs" />
     <Compile Include="Views\Favorite\FavoriteController.cs" />
     <Compile Include="Views\News\NewsController.cs" />
+    <Compile Include="Views\Source\FavoriteNewsTableViewSource.cs" />
     <Compile Include="Views\Source\NewsTableViewSource.cs" />
     <ImageAsset Include="Media.xcassets\baseline_delete_white_24.imageset\baseline_delete_white_24pt_1x1.png">
       <Visible>false</Visible>
