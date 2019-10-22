@@ -62,7 +62,8 @@ namespace NewsAppNative.Core.ViewModels.FavoriteNews
                 {
                     IsBusy = true;
                     var newsList = await RepositoryService.GetNewsFromStorage();
-                    FavoriteNews = new MvxObservableCollection<NewsModel>(newsList.Where(x=>x.IsMuted != true));
+                    var sortedNewsList = newsList.Where(x => x.IsMuted != true && x.IsInFavorite == true);
+                    FavoriteNews = new MvxObservableCollection<NewsModel>(sortedNewsList);
                     IsBusy = false;
                 }
             }
@@ -92,7 +93,14 @@ namespace NewsAppNative.Core.ViewModels.FavoriteNews
         }
         private void AddToFavorite(AddToFavoriteMessage obj)
         {
-            FavoriteNews.Add(obj.News);
+            FavoriteNews.Add(new NewsModel()
+            {
+                Id = obj.News.Id,
+                Title = obj.News.Title,
+                Content = obj.News.Content,
+                CreatedAt = obj.News.CreatedAt,
+                IsInFavorite = obj.News.IsInFavorite,
+            });
         }
     }
 }

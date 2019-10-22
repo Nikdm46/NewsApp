@@ -21,6 +21,7 @@ namespace NewsAppNative.iOS.Views.News
         private MvxUIRefreshControl _mvxRefresh;
         private NewsTableViewSource _newsTableViewSource;
         private MvxSubscriptionToken _token;
+        private bool _viewIsAppeared;
 
         public override void ViewDidAppear(bool animated)
         {
@@ -32,12 +33,27 @@ namespace NewsAppNative.iOS.Views.News
             }
         }
 
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+            _viewIsAppeared = true;
+        }
+
+        public override void ViewWillDisappear(bool animated)
+        {
+            base.ViewWillDisappear(animated);
+            _viewIsAppeared = false;
+        }
+
         private void UpdateTable(UpdateTableMessage obj)
         {
-            var itemIndex = ViewModel.News.IndexOf(obj.News);
-            _tableView.BeginUpdates();
-            _tableView.ReloadRows(new NSIndexPath[] { NSIndexPath.FromRowSection(itemIndex, 0) }, UITableViewRowAnimation.Automatic);
-            _tableView.EndUpdates();
+            if(_viewIsAppeared)
+            {
+                var itemIndex = ViewModel.News.IndexOf(obj.News);
+                _tableView.BeginUpdates();
+                _tableView.ReloadRows(new NSIndexPath[] {NSIndexPath.FromRowSection(itemIndex, 0)}, UITableViewRowAnimation.Automatic);
+                _tableView.EndUpdates();
+            }
         }
 
         public override void ViewDidLoad()

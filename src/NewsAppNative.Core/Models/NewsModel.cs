@@ -81,9 +81,10 @@ namespace NewsAppNative.Core.Models
                 {
                     ButtonTitle = "Показать еще...";
                 }
+                
+                RaisePropertyChanged(() => IsExpanded);
                 var message = new UpdateTableMessage(this, this);
                 Messenger.Publish(message);
-                RaisePropertyChanged(() => IsExpanded);
             }
         }
 

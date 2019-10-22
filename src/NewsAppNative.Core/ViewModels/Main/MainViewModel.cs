@@ -10,7 +10,7 @@ using NewsAppNative.Core.ViewModels.News;
 
 namespace NewsAppNative.Core.ViewModels.Main
 {
-    public class MainViewModel : MvxNavigationViewModel
+    public class MainViewModel : BaseViewModel
     {
         public IMvxAsyncCommand ShowInitialViewModelsCommand { get; }
         private readonly IMvxNavigationService _navigationService;
@@ -32,7 +32,7 @@ namespace NewsAppNative.Core.ViewModels.Main
         {
             await base.Initialize();
         }
-        public MainViewModel(IMvxLogProvider logProvider, IMvxNavigationService navigationService) : base(logProvider, navigationService)
+        public MainViewModel()
         {
             _navigationService = Mvx.Resolve<IMvxNavigationService>();
             ShowInitialViewModelsCommand = new MvxAsyncCommand(ShowInitialViewModels);

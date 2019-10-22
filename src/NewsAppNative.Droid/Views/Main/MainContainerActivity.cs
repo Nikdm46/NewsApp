@@ -11,7 +11,7 @@ using Toolbar = Android.Support.V7.Widget.Toolbar;
 namespace NewsAppNative.Droid.Views.Main
 {
     [Activity(Theme = "@style/AppTheme", WindowSoftInputMode = SoftInput.AdjustResize | SoftInput.StateHidden)]
-    public class MainContainerActivity : BaseActivity<MainContainerViewModel>
+    public class MainContainerActivity : BaseActivity<MainViewModel>
     {
         private NewsFragment _newsFragment;
         private FavoriteNewsFragment _favoriteNewsFragment;
