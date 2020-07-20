@@ -1,48 +1,51 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NewsAppNative.Core.Models;
-using NewsAppNative.Core.Models.Storage;
 using Realms;
 
 namespace NewsAppNative.Core.Services.Implementation
 {
     public class Storage : IStorageService
     {
-        private Realm _storage;
+        private Realm _storage;        
         public Storage()
         {
-            _storage = Realm.GetInstance();
+            _storage = Realm.GetInstance();            
         }
 
-        public void SaveOrUpdateNews(NewsModel newsToSave)
+        public async Task<IQueryable<T>> GetAll<T>() where T : RealmObject
+        {
+           return _storage.All<T>();
+        }
+
+        public async Task<T> GetById<T>(long? id) where T : RealmObject
+        {
+            var result = _storage.Find<T>(id);
+            return result;
+        }
+
+        public async Task SaveOrUpdate<T>(IEnumerable<T> itemsToSave) where T : RealmObject
+        {
+            foreach (RealmObject obj in itemsToSave)
+            {
+                await SaveOrUpdate(obj);
+            }
+        }
+
+        public async Task SaveOrUpdate<T>(T itemToSave) where T : RealmObject
         {
             _storage.Write(() =>
             {
-                var objectToSave = new RealmNews()
-                {
-                    Id = newsToSave.Id,
-                    Title = newsToSave.Title,
-                    Content = newsToSave.Content,
-                    CreatedAt = newsToSave.CreatedAt.ToString(),
-                    IsInFavorite = newsToSave.IsInFavorite,
-                    IsMuted = newsToSave.IsMuted,
-                };
-                _storage.Add(objectToSave, true);
+                _storage.Add(itemToSave, true);
             });
         }
 
-        public void RemoveNews(NewsModel newsToRemove)
+        public async Task Remove<T>(T itemToRemove) where T : RealmObject
         {
-            var news = _storage.All<RealmNews>().FirstOrDefault(n => n.Id == newsToRemove.Id);
             _storage.Write(() =>
             {
-                _storage.Remove(news);
+                _storage.Remove(itemToRemove);
             });            
-        }
-
-        public async Task<IQueryable<T>> GetFromStorage<T>() where T : RealmObject
-        {
-            return _storage.All<T>();
         }
     }
 }

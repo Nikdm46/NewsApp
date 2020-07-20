@@ -4,11 +4,11 @@ using NewsAppNative.Core.Models;
 
 namespace NewsAppNative.Core.Services
 {
-    public interface IRepositoryService
+    public interface INewsRepositoryService
     {
         Task<List<NewsModel>> GetNews(int count, int page);
-        void SaveOrUpdateNews(NewsModel newsToSave);
-        void RemoveNews(NewsModel newsToRemove);
+        Task SaveOrUpdateNews(NewsModel newsToSave);
+        Task RemoveNews(NewsModel newsToRemove);
         Task<List<NewsModel>> GetNewsFromStorage();
     }
 }

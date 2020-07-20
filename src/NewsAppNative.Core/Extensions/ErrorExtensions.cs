@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace NewsAppNative.Core.Extensions
 {
-    public static class Extentions
+    public static class ErrorExtentions
     {
         public static IEnumerable<TSource> FromHierarchy<TSource>(this TSource source, Func<TSource, TSource> nextItem, Func<TSource, bool> canContinue)
         {
@@ -17,6 +17,9 @@ namespace NewsAppNative.Core.Extensions
         }
         public static string GetLastMessage(this Exception exception)
         {
+            if (exception.InnerException == null)
+                return exception.Message;
+
             var messages = exception.FromHierarchy(ex => ex.InnerException).Select(ex => ex.Message);
             return messages.Last();
         }

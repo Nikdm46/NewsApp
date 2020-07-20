@@ -11,13 +11,13 @@ namespace NewsAppNative.Core.ViewModels
     {
         public readonly IMvxNavigationService NavigationService;
         public readonly IDialogService DialogService;
-        public readonly IRepositoryService RepositoryService;
+        public readonly INewsRepositoryService RepositoryService;
         public readonly IMvxMessenger Messenger;
 
         public BaseViewModel()
         {
             NavigationService = Mvx.IoCProvider.Resolve<IMvxNavigationService>();
-            RepositoryService = Mvx.IoCProvider.Resolve<IRepositoryService>();
+            RepositoryService = Mvx.IoCProvider.Resolve<INewsRepositoryService>();
             DialogService = Mvx.IoCProvider.Resolve<IDialogService>();
             Messenger = Mvx.IoCProvider.Resolve<IMvxMessenger>();
         }

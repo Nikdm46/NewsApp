@@ -73,7 +73,6 @@
     <Compile Include="RecyclerViews\SwipeResultActionFactory.cs" />
     <Compile Include="RecyclerViews\News\NewsTemplateSelector.cs" />
     <Compile Include="RecyclerViews\UniqueIdProvider.cs" />
-    <Compile Include="PlatformSpecific\AndroidHttpClient.cs" />
     <Compile Include="Setup.cs" />
     <Compile Include="Views\!Base\BaseActivity.cs" />
     <Compile Include="Views\FavoriteNews\FavoriteNewsFragment.cs" />

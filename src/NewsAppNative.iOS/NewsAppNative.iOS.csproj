@@ -79,7 +79,6 @@
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="PlatformSpecific\DialogService.cs" />
-    <Compile Include="PlatformSpecific\IosHttpClient.cs" />
     <Compile Include="Setup.cs" />
     <Compile Include="Styles\ColorPalette.cs" />
     <Compile Include="Views\Cells\NewsCell.cs" />

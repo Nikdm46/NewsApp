@@ -13,7 +13,7 @@ namespace NewsAppNative.Core.ViewModels.FavoriteNews
     public class FavoriteNewsViewModel : BaseViewModel
     {
         private MvxObservableCollection<NewsModel> _favoriteNews = new MvxObservableCollection<NewsModel>();
-        private MvxCommand<NewsModel> _removeFromFavoriteCommand;
+        private MvxAsyncCommand<NewsModel> _removeFromFavoriteCommand;
         private MvxAsyncCommand _refreshFavoriteNewsCommand;
         private bool _isBusy;
         private readonly MvxSubscriptionToken addToken;
@@ -23,21 +23,21 @@ namespace NewsAppNative.Core.ViewModels.FavoriteNews
             get => _favoriteNews;
             set => SetProperty(ref _favoriteNews, value);
         }
-        public MvxCommand<NewsModel> RemoveFromFavoriteCommand
+        public MvxAsyncCommand<NewsModel> RemoveFromFavoriteCommand
         {
             get
             {
-                _removeFromFavoriteCommand = _removeFromFavoriteCommand ?? new MvxCommand<NewsModel>(RemoveFromFavorite);
+                _removeFromFavoriteCommand = _removeFromFavoriteCommand ?? new MvxAsyncCommand<NewsModel>(RemoveFromFavorite);
                 return _removeFromFavoriteCommand;
             }
         }
-        private void RemoveFromFavorite(NewsModel obj)
+        private async Task RemoveFromFavorite(NewsModel obj)
         {
             try
             {
                 FavoriteNews.Remove(obj);
                 obj.IsInFavorite = false;
-                RepositoryService.RemoveNews(obj);
+                await RepositoryService.RemoveNews(obj);
                 var message = new RemoveFromFavoriteMessage(this, obj);
                 Messenger.Publish(message);
             }            
