@@ -9,6 +9,7 @@ using NewsAppNative.Core.Rest;
 using System.Net.Http;
 using System;
 using MvvmCross.Logging;
+using NewsAppNative.Core.DTO;
 
 namespace NewsAppNative.Core.Services.Implementation
 {
@@ -30,18 +31,18 @@ namespace NewsAppNative.Core.Services.Implementation
             try
             {
                 var url = BaseUrl + $"news/get?count={count}&page={page}";
-                var result = await restClient.MakeRequestAsync<NewsModel>(url, HttpMethod.Get);
+                ResponseDTO<NewsModel> result = await restClient.MakeRequestAsync<NewsModel>(url, HttpMethod.Get);
 
                 if(!result.IsSuccess)
                 {
-                   throw new NetworkErrorException("Не удалсь обновить список новостей.");
+                    throw new Exception();
                 }
 
                 return await SortNewsAsync(result.Content);                
             }
-            catch(Exception ex)
+            catch(Exception)
             {                
-                throw new Exception(ex.GetLastMessage());
+                throw new NetworkErrorException("Не удалсь обновить список новостей.");
             }
         }
 
@@ -53,20 +54,20 @@ namespace NewsAppNative.Core.Services.Implementation
             }
             catch (Exception ex)
             {
-                _mvxLog.Error(ex.GetLastMessage());
+                _mvxLog.ErrorException("Save news failed", ex);
             }
         }
 
         public async Task RemoveNews(NewsModel newsToRemove)
         {
             try
-            { 
-                var realmNews = await GetNewsFromStorageById(newsToRemove.Id);
+            {
+                RealmNews realmNews = await GetNewsFromStorageByIdAsync(newsToRemove.Id);
                 await storage.Remove(realmNews);
             }
             catch (Exception ex)
             {
-                _mvxLog.Error(ex.GetLastMessage());
+                _mvxLog.ErrorException("Remove news from storage failed", ex);
             }
         }        
 
@@ -84,7 +85,7 @@ namespace NewsAppNative.Core.Services.Implementation
             }
             catch (Exception ex)
             {
-                _mvxLog.Error(ex.GetLastMessage());
+                _mvxLog.ErrorException("Get news from storage failed", ex);
                 throw new Exception(ex.GetLastMessage());
             }
         }
@@ -96,7 +97,7 @@ namespace NewsAppNative.Core.Services.Implementation
             {
                 foreach (NewsModel item in savedNews)
                 {
-                    var selectedNewsItem = news.FirstOrDefault(i => i.Id == item.Id);
+                    NewsModel selectedNewsItem = news.FirstOrDefault(i => i.Id == item.Id);
                     if (selectedNewsItem != null)
                     {
                         selectedNewsItem.IsInFavorite = item.IsInFavorite;
@@ -107,7 +108,7 @@ namespace NewsAppNative.Core.Services.Implementation
             return news.Where(n => n.IsMuted == false).ToList();
         }
 
-        private async Task<RealmNews> GetNewsFromStorageById(long id)
+        private async Task<RealmNews> GetNewsFromStorageByIdAsync(long id)
         {
             return await storage.GetById<RealmNews>(id);
         }

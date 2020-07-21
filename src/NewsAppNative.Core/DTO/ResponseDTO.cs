@@ -1,14 +1,14 @@
 
 using System.Collections.Generic;
+using System.Net;
 
 namespace NewsAppNative.Core.DTO
 {
     public class ResponseDTO<T>
     {
-        public ResponseStatus Status { get; set; }
-        public int StatusCode { get; set; }
+        public HttpStatusCode StatusCode { get; set; }
         public string Error { get; set; }        
         public List<T> Content { get; set; }
-        public bool IsSuccess => Status != ResponseStatus.Error;
+        public bool IsSuccess { get; set; }
     }
 }

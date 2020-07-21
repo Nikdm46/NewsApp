@@ -59,12 +59,13 @@ namespace NewsAppNative.Core.ViewModels.News
                     List<NewsModel> newsList = await RepositoryService.GetNews(20, 1);
                     News = new MvxObservableCollection<NewsModel>(newsList);
                     _currentNewLoadedPage = 1;
-                    IsBusy = false;         
+                    IsBusy = false;
                 }
             }
             catch(Exception e)
             {
                 DialogService.Alert("Ошибка", e.GetLastMessage());
+                IsBusy = false;
             }
         }
 

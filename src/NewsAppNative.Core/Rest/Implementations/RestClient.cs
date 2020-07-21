@@ -4,20 +4,18 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using MvvmCross.Base;
 using MvvmCross.Logging;
 using NewsAppNative.Core.DTO;
 using NewsAppNative.Core.Extensions;
+using Newtonsoft.Json;
 
 namespace NewsAppNative.Core.Rest.Implementations
 {
     public class RestClient : IRestClient
     {
-        private readonly IMvxJsonConverter _jsonConverter;
         private readonly IMvxLog _mvxLog;
-        public RestClient(IMvxJsonConverter jsonConverter, IMvxLog mvxLog)
+        public RestClient(IMvxLog mvxLog)
         {
-            _jsonConverter = jsonConverter;
             _mvxLog = mvxLog;
         }
 
@@ -29,17 +27,17 @@ namespace NewsAppNative.Core.Rest.Implementations
                 {
                     var result = new ResponseDTO<TResult>()
                     {
-                        Status = ResponseStatus.Success,
+                        IsSuccess = true,
                         Error = "",
                     };
 
                     if (method != HttpMethod.Get)
                     {
-                        var json = _jsonConverter.SerializeObject(data);
+                        var json = JsonConvert.SerializeObject(data);
                         request.Content = new StringContent(json, Encoding.UTF8, "application/json");
                     }
 
-                    HttpResponseMessage response = new HttpResponseMessage();
+                    var response = new HttpResponseMessage();
                     try
                     {
                         var ct = new CancellationTokenSource();
@@ -48,18 +46,18 @@ namespace NewsAppNative.Core.Rest.Implementations
 
                         if (response?.StatusCode != null)
                         {
-                            result.StatusCode = (int)response?.StatusCode;
+                            result.StatusCode = response.StatusCode;
 
                             if (!response.IsSuccessStatusCode)
                             {
-                                result.Status = ResponseStatus.Error;
+                                result.IsSuccess = false;
                                 return result;
                             }
-                        }                        
+                        }
 
                         var stringSerialized = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        result.Content = _jsonConverter.DeserializeObject<List<TResult>>(stringSerialized);
+                        result.Content = JsonConvert.DeserializeObject<List<TResult>>(stringSerialized);
 
                         return result;
                     }
@@ -67,7 +65,7 @@ namespace NewsAppNative.Core.Rest.Implementations
                     {
                         result.Error = ex.GetLastMessage();
 
-                        _mvxLog.Error(result.Error);
+                        _mvxLog.ErrorException("Request failed", ex);
 
                         return result;
                     }
